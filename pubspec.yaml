@@ -68,6 +68,17 @@ flutter:
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package
+  fonts:
+    - family: GoogleSans
+      fonts:
+        - asset: lib/fonts/GoogleSans-Regular.ttf
+        - asset: lib/fonts/GoogleSans-Bold.ttf
+          weight: 700
+        - asset: lib/fonts/GoogleSans-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: lib/fonts/GoogleSans-Italic.ttf
+          style: italic
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
