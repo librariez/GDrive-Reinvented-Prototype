@@ -1,5 +1,9 @@
 import 'package:material_ui/material_ui.dart';
 import 'theme/app_theme.dart';
+import 'pages/files.dart';
+import 'pages/recent.dart';
+import 'pages/shared.dart';
+import 'pages/uploads.dart';
 
 void main() {
   runApp(const GDrive());
@@ -24,35 +28,6 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
-
-class SharedPage extends StatefulWidget {
-  const SharedPage({super.key});
-
-  @override
-  State<SharedPage> createState() => _SharedPageState();
-}
-
-class FilePage extends StatefulWidget {
-  const FilePage({super.key});
-
-  @override
-  State<FilePage> createState() => _FilePageState();
-}
-
-class RecentPage extends StatefulWidget {
-  const RecentPage({super.key});
-
-  @override
-  State<RecentPage> createState() => _RecentPageState();
-}
-
-class UploadPage extends StatefulWidget {
-  const UploadPage({super.key});
-
-  @override
-  State<UploadPage> createState() => _UploadPageState();
-}
-
 class _HomePageState extends State<HomePage> {
   int pageIndex = 0;
 
@@ -191,54 +166,8 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class _SharedPageState extends State<SharedPage> {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('SHARED PAGE'));
-  } 
-}
 
-class _FilePageState extends State<FilePage> {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('FILE PAGE'));
-  } 
-}
 
-class _RecentPageState extends State<RecentPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-        ),
-      ),
-       
-      body: Center
-      (child: Text('RECENT PAGE'),),
-    );
-  } 
-}
-class _UploadPageState extends State<UploadPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-        ),
-      ),
-       
-      body: Center
-      (child: Text('UPLOAD PAGE'),),
-    );
 
-  } 
-}
+
+
