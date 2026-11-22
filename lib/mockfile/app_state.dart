@@ -1,20 +1,48 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
+
 import 'mock_file_item.dart';
 
 class AppState extends ChangeNotifier {
-  AppState() {
-    files = _seed();
-  }
-
   late List<MockFileItem> files;
   bool isGridView = false;
-
-  void setGridView(bool value){
-    isGridView=value;
-    notifyListeners();
-  }
+  int maxStorageMb = 15000;
+  int usedStorageMb = 0;
+  bool isWifiConnected = true;
+  Timer? _activeTimer;
   int currentTabIndex = 0;
   bool showHiddenShared = false;
+
+  AppState() {
+    files = _seed();
+    usedStorageMb = files.fold<int>(0, (sum, item) => sum + item.sizeMb);
+  }
+
+  void addFile({
+    required String name,
+    required String type,
+    required int sizeMb,
+    required bool isShared,
+  }) {
+    final newItem = MockFileItem(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      name: name,
+      type: type,
+      sizeMb: sizeMb,
+      isShared: isShared,
+      isRecent: true,
+    );
+
+    files.insert(0, newItem);
+    usedStorageMb = (usedStorageMb + sizeMb).clamp(0, maxStorageMb);
+    notifyListeners();
+  }
+
+  void setGridView(bool value) {
+    isGridView = value;
+    notifyListeners();
+  }
 
   static List<MockFileItem> _seed() => [
     MockFileItem(
@@ -77,8 +105,15 @@ class AppState extends ChangeNotifier {
   }
 
   void resetDemo() {
+    _activeTimer?.cancel();
+    _activeTimer = null;
+
     files = _seed();
+    usedStorageMb = files.fold<int>(0, (sum, item) => sum + item.sizeMb);
+    isWifiConnected = true;
     showHiddenShared = false;
+    currentTabIndex = 0;
+    isGridView = false;
     notifyListeners();
   }
 
@@ -94,17 +129,22 @@ class AppState extends ChangeNotifier {
     return index == -1 ? null : files[index];
   }
 
-  void addSharedFile({required String name, required String type}) {
+  void addSharedFile({
+    required String name,
+    required String type,
+    required int sizeMb,
+  }) {
     files.add(
       MockFileItem(
         id: 'shared-${DateTime.now().microsecondsSinceEpoch}',
         name: name,
         type: type,
-        sizeMb: 1,
+        sizeMb: sizeMb,
         isShared: true,
         isRecent: true,
       ),
     );
+    usedStorageMb = (usedStorageMb + sizeMb).clamp(0, maxStorageMb);
     notifyListeners();
   }
 
@@ -149,5 +189,30 @@ class AppState extends ChangeNotifier {
     item.openedViaLink = true;
     item.isRecent = true;
     notifyListeners();
+  }
+  //not yet connected
+  void deleteFile(String id) {
+    final index = files.indexWhere((item) => item.id == id);
+    if (index == -1) return;
+
+    final removed = files.removeAt(index);
+    usedStorageMb = (usedStorageMb - removed.sizeMb).clamp(0, maxStorageMb);
+    notifyListeners();
+  }
+
+  void setStorageNearFull() {
+    usedStorageMb = 14900;
+    notifyListeners();
+  }
+
+  void setWifiConnected(bool value) {
+    isWifiConnected = value;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _activeTimer?.cancel();
+    super.dispose();
   }
 }

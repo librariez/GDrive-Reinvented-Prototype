@@ -15,10 +15,12 @@ class _RecentPage extends State<RecentPage> {
   @override
   Widget build(BuildContext context) {
     final items = context.watch<AppState>().recentItems;
+    
     return CleanupItemList(
       items: items,
       source: MenuSource.recents,
       emptyMessage: 'No recent files',
     );
+    
   }
 }
