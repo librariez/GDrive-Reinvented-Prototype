@@ -55,17 +55,21 @@ class MockDocs extends StatelessWidget {
                     name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium,
                   ),
                 ),
                 more,
               ],
             ),
-            const Spacer(),
-            Center(
-              child: Image.asset('lib/assets/preview.png', fit: BoxFit.fill),
+            Expanded(
+              child: Center(
+                child: Image.asset(
+                  'lib/assets/preview.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
             ),
-            const Spacer(),
           ],
         ),
       ),
