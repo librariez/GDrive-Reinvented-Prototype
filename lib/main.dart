@@ -1,9 +1,9 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
-
 import 'theme/app_theme.dart';
 import 'pages/recent.dart';
 import 'pages/files.dart';
+import 'pages/home.dart';
 import 'pages/shared.dart';
 import 'pages/uploads.dart';
 import 'mockfile/app_state.dart';
@@ -23,22 +23,26 @@ class GDrive extends StatelessWidget {
       title: 'Gdrive Reinvented',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const HomePage(),
+      home: const Page(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class Page extends StatefulWidget {
+  const Page({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Page> createState() => _PageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _PageState extends State<Page> {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
+    final scheme = AppTheme.lightTheme.colorScheme;
+    final isGrid = state.isGridView;
+    
+
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -52,24 +56,72 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         actions: [
-          IconButton(
-            tooltip: 'Grid / List',
-            icon: Icon(state.isGridView ? Icons.list : Icons.grid_view),
-            onPressed: state.toggleGrid,
+          Material(
+            child: Ink(
+              width: 55,
+              height: 40,
+              decoration: ShapeDecoration(
+                color: !isGrid
+                    ? scheme.tertiaryContainer
+                    : scheme.secondaryContainer,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.only(
+                    topLeft: Radius.circular(100),
+                    topRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(100),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ),
+              ),
+              child: IconButton(
+                tooltip: 'List',
+                icon: Icon(
+                  color: !isGrid ? scheme.surface : scheme.onSurface,
+                  Icons.list,
+                  size: 25,
+                ),
+                onPressed: () {
+                  state.setGridView(false);
+                },
+              ),
+            ),
+          ),
+          Padding(padding: EdgeInsetsGeometry.all(2.5)),
+          Material(
+            child: Ink(
+              width: 55,
+              height: 40,
+              decoration: ShapeDecoration(
+                color: isGrid
+                    ? scheme.tertiaryContainer
+                    : scheme.secondaryContainer,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(100),
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(100),
+                  ),
+                ),
+              ),
+              child: IconButton(
+                tooltip: 'Grid',
+                icon: Icon(
+                  color: isGrid ? scheme.surface : scheme.onSurface,
+                  Icons.grid_view,
+                  size: 25,
+                ),
+                onPressed: () {
+                  state.setGridView(true);
+                },
+              ),
+            ),
           ),
           IconButton(
             tooltip: 'Reset data',
             icon: const Icon(Icons.restart_alt),
             onPressed: state.resetDemo,
           ),
-        ],
-      ),
-      body: IndexedStack(
-        index: state.currentTabIndex,
-        children: const [
-          Center(child: Text('HOME PAGE')), // 0
-          SharedPage(), // 1
-          FilePage(), // 2
         ],
       ),
       drawer: Drawer(
@@ -177,6 +229,15 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      body: IndexedStack(
+        index: state.currentTabIndex,
+        children: const [
+          HomePage(), // 0
+          SharedPage(), // 1
+          FilePage(), // 2
+        ],
+      ),
+      
     );
   }
 }

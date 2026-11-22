@@ -1,18 +1,14 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
+
 import '../widgets/shared_link_card.dart';
 import '../widgets/cleanup_item_list.dart';
 import '../widgets/item_actions_sheet.dart';
 import '../mockfile/app_state.dart';
-import 'package:provider/provider.dart';
 
-class SharedPage extends StatefulWidget {
+class SharedPage extends StatelessWidget {
   const SharedPage({super.key});
 
-  @override
-  State<SharedPage> createState() => _SharedPageState();
-}
-
-class _SharedPageState extends State<SharedPage> {
   @override
   Widget build(BuildContext context) {
     final items = context.watch<AppState>().sharedItems;

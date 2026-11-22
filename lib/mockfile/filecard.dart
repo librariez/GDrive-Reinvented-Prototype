@@ -1,15 +1,16 @@
 import 'package:material_ui/material_ui.dart';
+
 import '../theme/app_theme.dart';
-import 'mock_docs_item.dart';
-import 'mock_image_item.dart';
-import 'mock_folder_item.dart';
 import 'mock_file_item.dart';
+import 'mock_docs_item.dart';
+import 'mock_folder_item.dart';
+import 'mock_image_item.dart';
 
 class FileCard extends StatelessWidget {
-  const FileCard({
+  FileCard({
     super.key,
     required this.item,
-    this.isGridView = false,
+    required this.isGridView,
     this.onMore,
   });
 
@@ -19,49 +20,103 @@ class FileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = AppTheme.lightTheme.colorScheme;
-    Widget preview;
-
     switch (item.type) {
       case 'docs':
-      case 'doc':
-        preview = MockDocs(name: item.name);
-        break;
-      case 'image':
-        preview = MockImage(name: item.name);
-        break;
+        return MockDocs(
+          name: item.name,
+          isGridView: isGridView,
+          onMore: onMore,
+        );
       case 'folder':
-        preview = MockFolder(name: item.name);
-        break;
+        return MockFolder(
+          name: item.name,
+          isGridView: isGridView,
+          onMore: onMore,
+        );
+      case 'image':
+        return MockImage(
+          name: item.name,
+          isGridView: isGridView,
+          onMore: onMore,
+        );
       default:
-        preview = ListTile(
-          leading: Icon(Icons.insert_drive_file, color: scheme.secondary,),
-          title: Text(item.name, maxLines: 1, overflow: TextOverflow.ellipsis),
+        return _MockFileShell(
+          name: item.name,
+          isGridView: isGridView,
+          onMore: onMore,
         );
     }
+  }
+}
 
-    final moreButton = IconButton(
+class _MockFileShell extends StatelessWidget {
+  const _MockFileShell({
+    required this.name,
+    required this.isGridView,
+    required this.onMore,
+  });
+
+  final String name;
+  final bool isGridView;
+  final VoidCallback? onMore;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = AppTheme.lightTheme.colorScheme;
+    final theme = AppTheme.lightTheme;
+    final icon = Icon(
+      Icons.insert_drive_file,
+      color: theme.colorScheme.onSurfaceVariant,
+    );
+    final more = IconButton(
       icon: const Icon(Icons.more_vert),
       onPressed: onMore,
     );
 
-    if (isGridView) {
-      return Card(
-        child: Stack(
-          children: [
-            preview,
-            Positioned(top: 0, right: 0, child: moreButton),
-          ],
+    if (!isGridView) {
+      return ListTile(
+        leading: icon,
+        title: Text(
+          name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: theme.textTheme.bodyMedium,
         ),
+        trailing: more,
       );
     }
 
-    return Stack(
-      alignment: Alignment.centerRight,
-      children: [
-        preview,
-        Positioned(right: 0, child: moreButton),
-      ],
+    return Card(
+      color: scheme.surfaceContainer,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                icon,
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                ),
+                more,
+              ],
+            ),
+            const Spacer(),
+            Center(
+              child: Image.asset('lib/assets/preview.png', fit: BoxFit.fill),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
     );
   }
 }
