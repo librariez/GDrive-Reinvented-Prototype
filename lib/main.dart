@@ -1,12 +1,18 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 import 'theme/app_theme.dart';
-import 'pages/files.dart';
-import 'pages/recent.dart';
-import 'pages/shared.dart';
+import 'pages/recents_page.dart';
+import 'pages/shared_page.dart';
 import 'pages/uploads.dart';
+import 'standins/app_state.dart';
 
 void main() {
-  runApp(const GDrive());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => AppState(),
+      child: const GDrive(),
+    ),
+  );
 }
 
 class GDrive extends StatelessWidget {
@@ -16,6 +22,7 @@ class GDrive extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gdrive Reinvented',
+      debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       home: const HomePage(),
     );
@@ -29,16 +36,9 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 class _HomePageState extends State<HomePage> {
-  int pageIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      pageIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<AppState>();
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -51,13 +51,25 @@ class _HomePageState extends State<HomePage> {
             );
           },
         ),
+        actions: [
+          IconButton(
+            tooltip: 'Grid / List',
+            icon: Icon(state.isGridView ? Icons.list : Icons.grid_view),
+            onPressed: state.toggleGrid,
+          ),
+          IconButton(
+            tooltip: 'Reset data',
+            icon: const Icon(Icons.restart_alt),
+            onPressed: state.resetDemo,
+          ),
+        ],
       ),
       body: IndexedStack(
-        index: pageIndex,
+        index: state.currentTabIndex,
         children: const [
-          Center(child: Text('HOME PAGE')), //0
-          SharedPage(),//1
-          FilePage(), //2
+          Center(child: Text('HOME PAGE')), // 0
+          SharedPage(), // 1
+          Center(child: Text('Files (Ara)')), // 2
         ],
       ),
       drawer: Drawer(
@@ -120,9 +132,14 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
-                  context, 
-                  MaterialPageRoute(builder: (context)=>RecentPage())
-                  );
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => Scaffold(
+                      appBar: AppBar(title: const Text('Recent')),
+                      body: const RecentsPage(),
+                    ),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -140,10 +157,8 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: pageIndex < 3 ? pageIndex : 0,
-        onDestinationSelected: (int index) {
-          _onItemTapped(index);
-        },
+        selectedIndex: state.currentTabIndex < 3 ? state.currentTabIndex : 0,
+        onDestinationSelected: state.setTab,
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.home_outlined), 

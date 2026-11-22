@@ -1,5 +1,5 @@
 import 'package:material_ui/material_ui.dart';
-import '../theme/app_theme.dart';
+import 'recents_page.dart';
 
 class RecentPage extends StatefulWidget {
   const RecentPage({super.key});
@@ -20,9 +20,7 @@ class _RecentPageState extends State<RecentPage> {
           },
         ),
       ),
-       
-      body: Center
-      (child: Text('RECENT PAGE'),),
+      body: const RecentsPage(),
     );
   } 
 }
