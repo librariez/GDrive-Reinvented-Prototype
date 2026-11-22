@@ -1,5 +1,10 @@
 import 'package:material_ui/material_ui.dart';
-import '../theme/app_theme.dart';
+import '../widgets/shared_link_card.dart';
+import '../widgets/cleanup_item_list.dart';
+import '../widgets/item_actions_sheet.dart';
+import '../standins/app_state.dart';
+import 'package:provider/provider.dart';
+
 class SharedPage extends StatefulWidget {
   const SharedPage({super.key});
 
@@ -10,6 +15,18 @@ class SharedPage extends StatefulWidget {
 class _SharedPageState extends State<SharedPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('SHARED PAGE'));
-  } 
+    final items = context.watch<AppState>().sharedItems;
+    return Column(
+      children: [
+        const SharedLinkCard(),
+        Expanded(
+          child: CleanupItemList(
+            items: items,
+            source: MenuSource.shared,
+            emptyMessage: 'Nothing shared with you yet',
+          ),
+        ),
+      ],
+    );
+  }
 }
