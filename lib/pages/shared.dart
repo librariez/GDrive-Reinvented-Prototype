@@ -2,7 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import '../widgets/shared_link_card.dart';
 import '../widgets/cleanup_item_list.dart';
 import '../widgets/item_actions_sheet.dart';
-import '../standins/app_state.dart';
+import '../mockfile/app_state.dart';
 import 'package:provider/provider.dart';
 
 class SharedPage extends StatefulWidget {

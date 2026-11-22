@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import '../pages/link_preview_page.dart';
-import '../standins/app_state.dart';
+import '../mockfile/app_state.dart';
 
 const kSampleLinkItemId = 'link-folder-1';
 const kSharedTabIndex = 1;

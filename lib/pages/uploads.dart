@@ -8,7 +8,6 @@ class UploadPage extends StatefulWidget {
   State<UploadPage> createState() => _UploadPageState();
 }
 
-
 class _UploadPageState extends State<UploadPage> {
   @override
   Widget build(BuildContext context) {
@@ -16,15 +15,13 @@ class _UploadPageState extends State<UploadPage> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
-       
-      body: Center
-      (child: Text('UPLOAD PAGE'),),
-    );
 
-  } 
+      body: Center(child: Text('UPLOAD PAGE')),
+    );
+  }
 }

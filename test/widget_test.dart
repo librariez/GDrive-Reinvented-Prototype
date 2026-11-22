@@ -10,5 +10,4 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:gdrive_reinvent/main.dart';
 
-void main() {
-}
+void main() {}

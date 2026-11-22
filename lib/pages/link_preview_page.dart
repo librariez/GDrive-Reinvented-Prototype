@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
-import '../standins/app_state.dart';
+import '../mockfile/app_state.dart';
 
 class LinkPreviewPage extends StatelessWidget {
   const LinkPreviewPage({super.key, required this.itemId});

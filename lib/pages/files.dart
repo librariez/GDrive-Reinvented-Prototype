@@ -12,5 +12,5 @@ class _FilePageState extends State<FilePage> {
   @override
   Widget build(BuildContext context) {
     return const Center(child: Text('FILE PAGE'));
-  } 
+  }
 }
