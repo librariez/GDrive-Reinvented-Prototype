@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-
 import 'mock_file_item.dart';
 
 class AppState extends ChangeNotifier {
@@ -9,6 +8,11 @@ class AppState extends ChangeNotifier {
 
   late List<MockFileItem> files;
   bool isGridView = false;
+
+  void setGridView(bool value){
+    isGridView=value;
+    notifyListeners();
+  }
   int currentTabIndex = 0;
   bool showHiddenShared = false;
 
@@ -56,16 +60,19 @@ class AppState extends ChangeNotifier {
       name: 'Capstone_Photos',
       type: 'folder',
       sizeMb: 0,
+      isShared: true,
+    ),
+    MockFileItem(
+      id: 'link-folder-2',
+      name: 'Z_Photos',
+      type: 'folder',
+      sizeMb: 0,
+      isShared: true,
     ),
   ];
 
   void setTab(int index) {
     currentTabIndex = index;
-    notifyListeners();
-  }
-
-  void toggleGrid() {
-    isGridView = !isGridView;
     notifyListeners();
   }
 

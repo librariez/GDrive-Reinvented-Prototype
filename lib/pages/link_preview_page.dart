@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
+import '../theme/app_theme.dart';
 import '../mockfile/app_state.dart';
 
 class LinkPreviewPage extends StatelessWidget {
@@ -9,8 +10,8 @@ class LinkPreviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
+    final scheme = AppTheme.lightTheme.colorScheme;
+    final textTheme = AppTheme.lightTheme.textTheme;
     final item =
         context.watch<AppState>().files.firstWhere((f) => f.id == itemId);
     final isFolder = item.type == 'folder';
@@ -32,14 +33,14 @@ class LinkPreviewPage extends StatelessWidget {
               Text(
                 item.name,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.bodyLarge,
+                style: textTheme.bodyLarge,
               ),
               const SizedBox(height: 8),
               Chip(
                 avatar: const Icon(Icons.link, size: 18),
                 label: Text(
                   'Opened via link',
-                  style: theme.textTheme.bodySmall,
+                  style: textTheme.bodySmall,
                 ),
                 backgroundColor: scheme.secondaryContainer,
                 side: BorderSide.none,
