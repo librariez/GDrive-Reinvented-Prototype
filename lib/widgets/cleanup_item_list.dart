@@ -1,8 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
-import '../standins/app_state.dart';
-import '../standins/file_card.dart';
-import '../standins/mock_file_item.dart';
+import '../mockfile/app_state.dart';
+import '../mockfile/filecard.dart';
+import '../mockfile/mock_file_item.dart';
 import 'item_actions_sheet.dart';
 
 class CleanupItemList extends StatelessWidget {
@@ -34,10 +34,10 @@ class CleanupItemList extends StatelessWidget {
     }
 
     Widget cardFor(MockFileItem item) => FileCard(
-          item: item,
-          isGridView: isGrid,
-          onMore: () => showItemActionsSheet(context, item, source),
-        );
+      item: item,
+      isGridView: isGrid,
+      onMore: () => showItemActionsSheet(context, item, source),
+    );
 
     if (isGrid) {
       return GridView.builder(

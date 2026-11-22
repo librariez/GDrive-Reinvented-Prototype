@@ -10,6 +10,7 @@ class AppTheme {
         onSurface: Color(0xFF18171C), //text or symbols
         onSurfaceVariant: Color(0xFF44454a), //subtitles
         secondaryContainer: Color(0xFFd3e3fd), //buttons bg
+        secondary: Color.fromARGB(255, 33, 81, 225),
         error: Color(0xFFb00020), //error
         onError: Color(0xFFffffff), //error text
         errorContainer: Color(0xFFfcd8df) //error background

@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
-import '../standins/app_state.dart';
-import '../standins/mock_file_item.dart';
+import '../mockfile/app_state.dart';
+import '../mockfile/mock_file_item.dart';
 
 enum MenuSource { shared, recents }
 
@@ -64,9 +64,7 @@ Future<void> showItemActionsSheet(
                 ..showSnackBar(
                   SnackBar(
                     content: Text(
-                      isShared
-                          ? 'Removed from view'
-                          : 'Removed from recents',
+                      isShared ? 'Removed from view' : 'Removed from recents',
                     ),
                     action: SnackBarAction(
                       label: 'Undo',

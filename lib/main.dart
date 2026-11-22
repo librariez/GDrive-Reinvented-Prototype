@@ -1,17 +1,16 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
+
 import 'theme/app_theme.dart';
-import 'pages/recents_page.dart';
-import 'pages/shared_page.dart';
+import 'pages/recent.dart';
+import 'pages/files.dart';
+import 'pages/shared.dart';
 import 'pages/uploads.dart';
-import 'standins/app_state.dart';
+import 'mockfile/app_state.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => AppState(),
-      child: const GDrive(),
-    ),
+    ChangeNotifierProvider(create: (_) => AppState(), child: const GDrive()),
   );
 }
 
@@ -35,6 +34,7 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
+
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
         children: const [
           Center(child: Text('HOME PAGE')), // 0
           SharedPage(), // 1
-          Center(child: Text('Files (Ara)')), // 2
+          FilePage(), // 2
         ],
       ),
       drawer: Drawer(
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                   MaterialPageRoute(
                     builder: (_) => Scaffold(
                       appBar: AppBar(title: const Text('Recent')),
-                      body: const RecentsPage(),
+                      body: const RecentPage(),
                     ),
                   ),
                 );
@@ -149,8 +149,8 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context)=>UploadPage())
-                  );
+                  MaterialPageRoute(builder: (context) => UploadPage()),
+                );
               },
             ),
           ],
@@ -161,9 +161,9 @@ class _HomePageState extends State<HomePage> {
         onDestinationSelected: state.setTab,
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined), 
+            icon: Icon(Icons.home_outlined),
             selectedIcon: Icon(Icons.home),
-            label: 'Home'
+            label: 'Home',
           ),
           NavigationDestination(
             icon: Icon(Icons.people_outline_rounded),
@@ -180,9 +180,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
-
-
-
-
