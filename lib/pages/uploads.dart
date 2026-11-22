@@ -20,7 +20,6 @@ class _UploadPageState extends State<UploadPage> {
           },
         ),
       ),
-
       body: Center(child: Text('UPLOAD PAGE')),
     );
   }
